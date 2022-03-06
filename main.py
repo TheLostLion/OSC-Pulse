@@ -79,16 +79,6 @@ def visemeHandler(unused_addr, args, viseme):
         client.send_message("/avatar/parameters/Collar",False)
         visemestore.clear()
 
-        # sub detect
-    if ("7 13 12" in visemeStream) or ("7 13 1" in visemeStream):
-        if random.randint(0, 100) > 50:
-            print("sub")
-        else:
-            print("yupp")
-            client.send_message("/avatar/parameters/Collar", True)
-            time.sleep(1)
-            client.send_message("/avatar/parameters/Collar", False)
-            visemestore.clear()
     return
 ###########################################################
 
