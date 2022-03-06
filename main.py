@@ -61,6 +61,7 @@ def visemeHandler(unused_addr, args, viseme):
 
     #collar detect
     # will activate the collar when you say submissive for 1 sec
+    # just for testing
     if ("7 12 1 12 7"in visemeStream) or ("7 12 7 12 0" in visemeStream):
         if random.randint(0, 100)> 50:
             print("just stop")
