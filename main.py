@@ -2,8 +2,6 @@ import random
 import time
 import threading
 
-import websocket
-
 from pythonosc import udp_client
 from pythonosc import dispatcher
 from pythonosc import osc_server
@@ -28,20 +26,9 @@ oscVRCServerPort = 9001
 # HeartBeat
 ###########################################################
 ###########################################################
-
-RawHeartBeat= []
-HeartBeat= []
-
-def heartHander(unused_addr, args, HeartBeat):
-    # need to divide by 200
-    print("BPM")
-    RawHeartBeat.append()
+# BPM
 
 
-    client.send_message("/avatar/parameters/HeartBeat", True)
-    time.sleep(0.5)
-    print("test")
-    return
 
 #########################################################################
 
@@ -52,8 +39,9 @@ def heartHander(unused_addr, args, HeartBeat):
 ###########################################################
 visemestore = []
 
-def muteHander(unused_addr, args, viseme):
+def muteHander(unused_addr, args, Muted):
 
+    print("mute")
 
     return
 
@@ -66,7 +54,7 @@ def visemeHandler(unused_addr, args, viseme):
         visemeStream += str(item) + " "
 
     #for testing of viseims
-    #print(visemes)
+    print(visemestore)
 
     #sus detect
     if ("7 10 7"in visemeStream) or ("7 13 7" in visemeStream):
@@ -97,8 +85,11 @@ def StarServer():
     return
 def StartClient():
     while True:
-        #value = random.randint(0, 1)
-        #client.send_message("/avatar/parameters/Collar", value)
+
+        #BPM
+        BPM = 134
+        client.send_message("/avatar/parameters/HeartBeat",(BPM/200) * 2 - 1 )
+
         time.sleep(0.5)
 
 if __name__ == '__main__':
