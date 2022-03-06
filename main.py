@@ -27,6 +27,10 @@ oscVRCServerPort = 9001
 ###########################################################
 ###########################################################
 
+# put your HyperRate ID here
+# HypeRateID = ("https://app.hyperate.io/####")
+
+
 
 
 ###########################################################
@@ -55,8 +59,9 @@ def visemeHandler(unused_addr, args, viseme):
     #for testing of viseims
     print(visemestore)
 
-    #sus detect
-    if ("7 10 7"in visemeStream) or ("7 13 7" in visemeStream):
+    #collar detect
+    # will activate the collar when you say submissive for 1 sec
+    if ("7 12 1 12 7"in visemeStream) or ("7 12 7 12 0" in visemeStream):
         if random.randint(0, 100)> 50:
             print("just stop")
         else:
@@ -64,6 +69,18 @@ def visemeHandler(unused_addr, args, viseme):
         client.send_message("/avatar/parameters/Collar", True)
         time.sleep(1)
         client.send_message("/avatar/parameters/Collar",False)
+        visemestore.clear()
+
+    #HeartBeat detect
+    # will activate the HeartBeat  for 25 sec
+    if ("1 13 8 7"in visemeStream) or ("14 13 7 0" in visemeStream):
+        if random.randint(0, 100)> 50:
+            print("HeartBeat")
+        else:
+            print("HeartBeat ooo")
+        client.send_message("/avatar/parameters/HeartBeatShow", True)
+        time.sleep(25)
+        client.send_message("/avatar/parameters/HeartBeatShow",False)
         visemestore.clear()
 
     return
@@ -74,7 +91,6 @@ def visemeHandler(unused_addr, args, viseme):
 def StarServer():
     dispatcher.map("/avatar/parameters/Viseme", visemeHandler, "viseme")
     dispatcher.map("/avatar/parameters/MuteSelf", muteHander, "Muted")
-    dispatcher.map("/avatar/parameters/HeartBeat", heartHander, "HeartBeat")
 
     server = osc_server.ThreadingOSCUDPServer((VRCHostIP, oscVRCServerPort), dispatcher)
     print("Serving on {}".format(server.server_address))
@@ -85,7 +101,6 @@ def StarServer():
 def StartClient():
     while True:
 
-        #BPM
         BPM = 50
         client.send_message("/avatar/parameters/HeartBeat",(BPM/200) * 2 - 1 )
         time.sleep(0.5)
